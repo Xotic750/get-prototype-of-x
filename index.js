@@ -1,6 +1,6 @@
 /**
  * @file Sham for Object.getPrototypeOf
- * @version 1.3.0
+ * @version 1.3.1
  * @author Xotic750 <Xotic750@gmail.com>
  * @copyright  Xotic750
  * @license {@link <https://opensource.org/licenses/MIT> MIT}

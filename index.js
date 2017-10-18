@@ -1,6 +1,6 @@
 /**
  * @file Sham for Object.getPrototypeOf
- * @version 1.3.1
+ * @version 1.4.0
  * @author Xotic750 <Xotic750@gmail.com>
  * @copyright  Xotic750
  * @license {@link <https://opensource.org/licenses/MIT> MIT}
@@ -12,7 +12,7 @@
 var isFunction = require('is-function-x');
 var isNull = require('lodash.isnull');
 var toObject = require('to-object-x');
-var gpo = Object.getPrototypeOf;
+var gpo = require('cached-constructors-x').Object.getPrototypeOf;
 
 if (gpo) {
   try {

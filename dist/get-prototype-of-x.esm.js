@@ -1,6 +1,5 @@
 import isFunction from 'is-function-x';
 import toObject from 'to-object-x';
-
 /**
  * This method returns the prototype (i.e. The value of the internal [[Prototype]] property)
  * of the specified object.
@@ -9,8 +8,8 @@ import toObject from 'to-object-x';
  * @param {*} obj - The object whose prototype is to be returned.
  * @returns {object} The prototype of the given object. If there are no inherited properties, null is returned.
  */
-let gpo;
 
+var gpo;
 gpo = {}.getPrototypeOf;
 
 if (gpo) {
@@ -26,16 +25,18 @@ if (gpo) {
     gpo(1);
   } catch (ignore) {
     /** @type {Function} */
-    const $getPrototypeOf = gpo;
+    var $getPrototypeOf = gpo;
+
     gpo = function getPrototypeOf(obj) {
       return $getPrototypeOf(toObject(obj));
     };
   }
 } else {
   gpo = function getPrototypeOf(obj) {
-    const object = toObject(obj);
+    var object = toObject(obj);
     /* eslint-disable-next-line no-proto */
-    const proto = object.__proto__;
+
+    var proto = object.__proto__;
 
     if (proto || proto === null) {
       return proto;
@@ -53,6 +54,7 @@ if (gpo) {
   };
 }
 
-const getPO = gpo;
-
+var getPO = gpo;
 export default getPO;
+
+//# sourceMappingURL=get-prototype-of-x.esm.js.map

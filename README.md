@@ -21,27 +21,27 @@
 <a name="module_get-prototype-of-x"></a>
 
 ## get-prototype-of-x
+
 Sham for Object.getPrototypeOf
 
-**Version**: 1.4.0  
-**Author**: Xotic750 <Xotic750@gmail.com>  
-**License**: [MIT](&lt;https://opensource.org/licenses/MIT&gt;)  
-**Copyright**: Xotic750  
 <a name="exp_module_get-prototype-of-x--module.exports"></a>
 
 ### `module.exports` ⇒ <code>Object</code> ⏏
+
 This method returns the prototype (i.e. the value of the internal [[Prototype]] property)
 of the specified object.
 
 **Kind**: Exported member  
-**Returns**: <code>Object</code> - The prototype of the given object. If there are no inherited properties, null is returned.  
+**Returns**: <code>Object</code> - The prototype of the given object. If there are no inherited properties, null is returned.
 
-| Param | Type | Description |
-| --- | --- | --- |
-| obj | <code>\*</code> | The object whose prototype is to be returned. |
+| Param | Type            | Description                                   |
+| ----- | --------------- | --------------------------------------------- |
+| obj   | <code>\*</code> | The object whose prototype is to be returned. |
 
-**Example**  
+**Example**
+
 ```js
-var getPrototypeOf = require('get-prototype-of-x');
-getPrototypeOf('foo'); // String.prototype
+import getPrototypeOf from 'get-prototype-of-x';
+
+console.log(getPrototypeOf('foo')); // String.prototype
 ```

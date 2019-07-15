@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "cached-constructors-x": "^2.0.4",
-    "is-function-x": "^4.0.7",
+    "is-function-x": "^4.0.8",
     "lodash.isnull": "^3.0.0",
     "to-object-x": "^2.0.1"
   },

@@ -2,13 +2,13 @@
 {
   "author": "Graham Fairweather",
   "copywrite": "Copyright (c) 2017",
-  "date": "2019-07-16T12:37:50.576Z",
+  "date": "2019-07-16T21:46:34.467Z",
   "describe": "",
   "description": "Sham for Object.getPrototypeOf",
   "file": "get-prototype-of-x.js",
   "hash": "751788b5dc191d73c0b9",
   "license": "MIT",
-  "version": "2.0.3"
+  "version": "2.0.4"
 }
 */
 (function webpackUniversalModuleDefinition(root, factory) {

@@ -32,7 +32,6 @@ describe('getPrototypeOf', function() {
     }).toThrowErrorMatchingSnapshot();
 
     expect(function() {
-      /* eslint-disable-next-line no-void */
       getPrototypeOf(void 0);
     }).toThrowErrorMatchingSnapshot();
 

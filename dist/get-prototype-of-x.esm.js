@@ -1,38 +1,35 @@
 import isFunction from 'is-function-x';
 import toObject from 'to-object-x';
-/**
- * This method returns the prototype (i.e. The value of the internal [[Prototype]] property)
- * of the specified object.
- *
- * @function getPrototypeOf
- * @param {*} obj - The object whose prototype is to be returned.
- * @returns {object} The prototype of the given object. If there are no inherited properties, null is returned.
- */
+import toBoolean from 'to-boolean-x';
+var ObjectCtr = {}.constructor;
+var nativeGetPrototypeOf = ObjectCtr.getPrototypeOf;
 
-var gpo;
-gpo = {}.getPrototypeOf;
+var test1 = function test1() {
+  var prototypeOfCtr = {};
+  /* eslint-disable-next-line lodash/prefer-noop */
 
-if (gpo) {
+  var Ctr = function Ctr() {};
+
+  Ctr.prototype = prototypeOfCtr;
+  var ctr = new Ctr();
+
   try {
-    gpo = gpo(Object) === {}.prototype && gpo;
+    return nativeGetPrototypeOf(ctr) === prototypeOfCtr;
   } catch (ignore) {
-    gpo = null;
+    return false;
   }
-}
+};
 
-if (gpo) {
-  try {
-    gpo(1);
-  } catch (ignore) {
-    /** @type {Function} */
-    var $getPrototypeOf = gpo;
+var isWorking = toBoolean(nativeGetPrototypeOf) && test1();
 
-    gpo = function getPrototypeOf(obj) {
-      return $getPrototypeOf(toObject(obj));
-    };
-  }
-} else {
-  gpo = function getPrototypeOf(obj) {
+var patchedGetPrototypeOf = function patchedGetPrototypeOf() {
+  return function getPrototypeOf(obj) {
+    return nativeGetPrototypeOf(toObject(obj));
+  };
+};
+
+export var implementation = function implementation() {
+  return function getPrototypeOf(obj) {
     var object = toObject(obj);
     /* eslint-disable-next-line no-proto */
 
@@ -46,15 +43,23 @@ if (gpo) {
       return object.constructor.prototype;
     }
 
-    if (object instanceof Object) {
-      return Object.prototype;
+    if (object instanceof ObjectCtr) {
+      return ObjectCtr.prototype;
     }
 
     return null;
   };
-}
+};
+/**
+ * This method returns the prototype (i.e. The value of the internal [[Prototype]] property)
+ * of the specified object.
+ *
+ * @function getPrototypeOf
+ * @param {*} obj - The object whose prototype is to be returned.
+ * @returns {object} The prototype of the given object. If there are no inherited properties, null is returned.
+ */
 
-var getPO = gpo;
-export default getPO;
+var gpo = isWorking ? patchedGetPrototypeOf() : implementation();
+export default gpo;
 
 //# sourceMappingURL=get-prototype-of-x.esm.js.map

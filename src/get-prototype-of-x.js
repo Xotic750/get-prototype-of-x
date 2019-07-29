@@ -1,38 +1,35 @@
 import isFunction from 'is-function-x';
 import toObject from 'to-object-x';
+import toBoolean from 'to-boolean-x';
 
-/**
- * This method returns the prototype (i.e. The value of the internal [[Prototype]] property)
- * of the specified object.
- *
- * @function getPrototypeOf
- * @param {*} obj - The object whose prototype is to be returned.
- * @returns {object} The prototype of the given object. If there are no inherited properties, null is returned.
- */
-let gpo;
+const ObjectCtr = {}.constructor;
+const nativeGetPrototypeOf = ObjectCtr.getPrototypeOf;
 
-gpo = {}.getPrototypeOf;
+const test1 = function test1() {
+  const prototypeOfCtr = {};
+  /* eslint-disable-next-line lodash/prefer-noop */
+  const Ctr = function Ctr() {};
 
-if (gpo) {
+  Ctr.prototype = prototypeOfCtr;
+  const ctr = new Ctr();
+
   try {
-    gpo = gpo(Object) === {}.prototype && gpo;
+    return nativeGetPrototypeOf(ctr) === prototypeOfCtr;
   } catch (ignore) {
-    gpo = null;
+    return false;
   }
-}
+};
 
-if (gpo) {
-  try {
-    gpo(1);
-  } catch (ignore) {
-    /** @type {Function} */
-    const $getPrototypeOf = gpo;
-    gpo = function getPrototypeOf(obj) {
-      return $getPrototypeOf(toObject(obj));
-    };
-  }
-} else {
-  gpo = function getPrototypeOf(obj) {
+const isWorking = toBoolean(nativeGetPrototypeOf) && test1();
+
+const patchedGetPrototypeOf = function patchedGetPrototypeOf() {
+  return function getPrototypeOf(obj) {
+    return nativeGetPrototypeOf(toObject(obj));
+  };
+};
+
+export const implementation = function implementation() {
+  return function getPrototypeOf(obj) {
     const object = toObject(obj);
     /* eslint-disable-next-line no-proto */
     const proto = object.__proto__;
@@ -45,14 +42,22 @@ if (gpo) {
       return object.constructor.prototype;
     }
 
-    if (object instanceof Object) {
-      return Object.prototype;
+    if (object instanceof ObjectCtr) {
+      return ObjectCtr.prototype;
     }
 
     return null;
   };
-}
+};
 
-const getPO = gpo;
+/**
+ * This method returns the prototype (i.e. The value of the internal [[Prototype]] property)
+ * of the specified object.
+ *
+ * @function getPrototypeOf
+ * @param {*} obj - The object whose prototype is to be returned.
+ * @returns {object} The prototype of the given object. If there are no inherited properties, null is returned.
+ */
+const gpo = isWorking ? patchedGetPrototypeOf() : implementation();
 
-export default getPO;
+export default gpo;

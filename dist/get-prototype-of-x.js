@@ -2,11 +2,11 @@
 {
   "author": "Graham Fairweather",
   "copywrite": "Copyright (c) 2017",
-  "date": "2019-07-27T21:43:08.445Z",
+  "date": "2019-07-29T07:38:37.581Z",
   "describe": "",
   "description": "Sham for Object.getPrototypeOf",
   "file": "get-prototype-of-x.js",
-  "hash": "4e15b16333432892f8e0",
+  "hash": "9b6aa0373e68111786f6",
   "license": "MIT",
   "version": "2.0.17"
 }
@@ -1012,41 +1012,39 @@ var to_object_x_esm_toObject = function toObject(value) {
 
 
 // CONCATENATED MODULE: ./dist/get-prototype-of-x.esm.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "implementation", function() { return get_prototype_of_x_esm_implementation; });
 
 
-/**
- * This method returns the prototype (i.e. The value of the internal [[Prototype]] property)
- * of the specified object.
- *
- * @function getPrototypeOf
- * @param {*} obj - The object whose prototype is to be returned.
- * @returns {object} The prototype of the given object. If there are no inherited properties, null is returned.
- */
 
-var gpo;
-gpo = {}.getPrototypeOf;
+var ObjectCtr = {}.constructor;
+var nativeGetPrototypeOf = ObjectCtr.getPrototypeOf;
 
-if (gpo) {
+var test1 = function test1() {
+  var prototypeOfCtr = {};
+  /* eslint-disable-next-line lodash/prefer-noop */
+
+  var Ctr = function Ctr() {};
+
+  Ctr.prototype = prototypeOfCtr;
+  var ctr = new Ctr();
+
   try {
-    gpo = gpo(Object) === {}.prototype && gpo;
+    return nativeGetPrototypeOf(ctr) === prototypeOfCtr;
   } catch (ignore) {
-    gpo = null;
+    return false;
   }
-}
+};
 
-if (gpo) {
-  try {
-    gpo(1);
-  } catch (ignore) {
-    /** @type {Function} */
-    var $getPrototypeOf = gpo;
+var isWorking = to_boolean_x_esm(nativeGetPrototypeOf) && test1();
 
-    gpo = function getPrototypeOf(obj) {
-      return $getPrototypeOf(to_object_x_esm(obj));
-    };
-  }
-} else {
-  gpo = function getPrototypeOf(obj) {
+var get_prototype_of_x_esm_patchedGetPrototypeOf = function patchedGetPrototypeOf() {
+  return function getPrototypeOf(obj) {
+    return nativeGetPrototypeOf(to_object_x_esm(obj));
+  };
+};
+
+var get_prototype_of_x_esm_implementation = function implementation() {
+  return function getPrototypeOf(obj) {
     var object = to_object_x_esm(obj);
     /* eslint-disable-next-line no-proto */
 
@@ -1060,16 +1058,24 @@ if (gpo) {
       return object.constructor.prototype;
     }
 
-    if (object instanceof Object) {
-      return Object.prototype;
+    if (object instanceof ObjectCtr) {
+      return ObjectCtr.prototype;
     }
 
     return null;
   };
-}
+};
+/**
+ * This method returns the prototype (i.e. The value of the internal [[Prototype]] property)
+ * of the specified object.
+ *
+ * @function getPrototypeOf
+ * @param {*} obj - The object whose prototype is to be returned.
+ * @returns {object} The prototype of the given object. If there are no inherited properties, null is returned.
+ */
 
-var getPO = gpo;
-/* harmony default export */ var get_prototype_of_x_esm = __webpack_exports__["default"] = (getPO);
+var gpo = isWorking ? get_prototype_of_x_esm_patchedGetPrototypeOf() : get_prototype_of_x_esm_implementation();
+/* harmony default export */ var get_prototype_of_x_esm = __webpack_exports__["default"] = (gpo);
 
 
 

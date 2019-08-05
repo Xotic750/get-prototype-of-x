@@ -22,33 +22,29 @@ var test1 = function test1() {
 
 var isWorking = toBoolean(nativeGetPrototypeOf) && test1();
 
-var patchedGetPrototypeOf = function patchedGetPrototypeOf() {
-  return function getPrototypeOf(obj) {
-    return nativeGetPrototypeOf(toObject(obj));
-  };
+var patchedGetPrototypeOf = function getPrototypeOf(obj) {
+  return nativeGetPrototypeOf(toObject(obj));
 };
 
-export var implementation = function implementation() {
-  return function getPrototypeOf(obj) {
-    var object = toObject(obj);
-    /* eslint-disable-next-line no-proto */
+export var implementation = function getPrototypeOf(obj) {
+  var object = toObject(obj);
+  /* eslint-disable-next-line no-proto */
 
-    var proto = object.__proto__;
+  var proto = object.__proto__;
 
-    if (proto || proto === null) {
-      return proto;
-    }
+  if (proto || proto === null) {
+    return proto;
+  }
 
-    if (isFunction(object.constructor)) {
-      return object.constructor.prototype;
-    }
+  if (isFunction(object.constructor)) {
+    return object.constructor.prototype;
+  }
 
-    if (object instanceof ObjectCtr) {
-      return ObjectCtr.prototype;
-    }
+  if (object instanceof ObjectCtr) {
+    return ObjectCtr.prototype;
+  }
 
-    return null;
-  };
+  return null;
 };
 /**
  * This method returns the prototype (i.e. The value of the internal [[Prototype]] property)
@@ -59,7 +55,7 @@ export var implementation = function implementation() {
  * @returns {object} The prototype of the given object. If there are no inherited properties, null is returned.
  */
 
-var gpo = isWorking ? patchedGetPrototypeOf() : implementation();
+var gpo = isWorking ? patchedGetPrototypeOf : implementation;
 export default gpo;
 
 //# sourceMappingURL=get-prototype-of-x.esm.js.map

@@ -2,7 +2,7 @@
 {
   "author": "Graham Fairweather",
   "copywrite": "Copyright (c) 2017",
-  "date": "2019-08-05T18:38:41.025Z",
+  "date": "2019-08-06T00:47:02.166Z",
   "describe": "",
   "description": "Sham for Object.getPrototypeOf",
   "file": "get-prototype-of-x.js",
